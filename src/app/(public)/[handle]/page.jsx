@@ -6,7 +6,6 @@ import Testimonial from '@/models/Testimonial';
 import Experience from '@/models/Experience'; 
 import { notFound } from 'next/navigation';
 
-// Import Templates
 import ModernTemplate from '@/components/portfolio/templates/ModernTemplate';
 import MinimalTemplate from '@/components/portfolio/templates/MinimalTemplate';
 import EditorialTemplate from '@/components/portfolio/templates/EditorialTemplate';
@@ -14,16 +13,27 @@ import BentoTemplate from '@/components/portfolio/templates/BentoTemplate';
 
 export const revalidate = 0;
 
+// Utility to escape regex characters safely
+function escapeRegex(text) {
+return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+}
+
 async function getPublicData(handle) {
+if (!handle || typeof handle !== 'string') return null;
+
 try {
 await dbConnect();
-const cleanHandle = (handle || '').toLowerCase();
+const cleanHandle = handle.trim().toLowerCase();
+
+if (!cleanHandle) return null;
+
+const safeRegex = new RegExp(`^${escapeRegex(cleanHandle)}$`, 'i');
 
 const user = await User.findOne({
     $or: [
     { handle: cleanHandle },
-    { handle: new RegExp(`^${cleanHandle}$`, 'i') },
-    { name: new RegExp(`^${cleanHandle}$`, 'i') },
+    { handle: safeRegex },
+    { name: safeRegex },
     ],
 })
     .select('-password -resetCode -resetCodeExpiry')
@@ -31,7 +41,6 @@ const user = await User.findOne({
 
 if (!user) return null;
 
-//  2. Added Experience to Promise.all
 const [projects, services, testimonials, experiences] = await Promise.all([
     Project.find({ userId: user._id }).populate('category').sort({ createdAt: -1 }).lean(),
     Service.find({ userId: user._id }).populate('category').sort({ createdAt: -1 }).lean(),
@@ -44,7 +53,7 @@ return {
     projects: JSON.parse(JSON.stringify(projects)),
     services: JSON.parse(JSON.stringify(services)),
     testimonials: JSON.parse(JSON.stringify(testimonials)),
-    experiences: JSON.parse(JSON.stringify(experiences)), // 👈 3. Returned experiences
+    experiences: JSON.parse(JSON.stringify(experiences)),
 };
 } catch (err) {
 console.error('Error fetching public portfolio:', err);
@@ -53,7 +62,9 @@ return null;
 }
 
 export default async function PublicPortfolioPage({ params }) {
-const { handle } = await params;
+const resolvedParams = await params;
+const handle = resolvedParams?.handle;
+
 const data = await getPublicData(handle);
 
 if (!data) {
@@ -61,54 +72,19 @@ notFound();
 }
 
 const { user, projects, services, testimonials, experiences } = data;
-
 const selectedTemplate = user.portfolioTemplate || 'modern';
 
-// 4. Passed experiences prop into all templates
+const templateProps = { user, projects, services, testimonials, experiences };
+
 switch (selectedTemplate) {
 case 'minimal':
-    return (
-    <MinimalTemplate
-        user={user}
-        projects={projects}
-        services={services}
-        testimonials={testimonials}
-        experiences={experiences}
-    />
-    );
-
+    return <MinimalTemplate {...templateProps} />;
 case 'editorial':
-    return (
-    <EditorialTemplate
-        user={user}
-        projects={projects}
-        services={services}
-        testimonials={testimonials}
-        experiences={experiences}
-    />
-    );
-
+    return <EditorialTemplate {...templateProps} />;
 case 'bento':
-    return (
-    <BentoTemplate
-        user={user}
-        projects={projects}
-        services={services}
-        testimonials={testimonials}
-        experiences={experiences}
-    />
-    );
-
+    return <BentoTemplate {...templateProps} />;
 case 'modern':
 default:
-    return (
-    <ModernTemplate
-        user={user}
-        projects={projects}
-        services={services}
-        testimonials={testimonials}
-        experiences={experiences}
-    />
-    );
+    return <ModernTemplate {...templateProps} />;
 }
 }

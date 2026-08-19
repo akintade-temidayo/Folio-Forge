@@ -35,9 +35,9 @@ const [loading, setLoading] = useState(false);
 const [error, setError] = useState('');
 
 const handleSignUp = async (e) => {
-e.preventDefault();
-setLoading(true);
-setError('');
+    e.preventDefault();
+    setLoading(true);
+    setError('');
 
 try {
     const res = await fetch('/api/auth/register', {
@@ -49,7 +49,8 @@ try {
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Signup failed');
 
-    router.push('/login');
+    
+    router.push('/admin/login');
 } catch (err) {
     setError(err.message);
 } finally {

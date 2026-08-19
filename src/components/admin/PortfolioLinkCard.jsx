@@ -1,3 +1,4 @@
+//portfoliolinkcard.jsx
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -96,13 +97,16 @@ setDisplayedTemplates(pickRandomTemplates(selectedTemplate));
 const isEnabled = projectsCount >= 2;
 
 const handle = useMemo(() => {
-return user?.handle || user?.name?.toLowerCase().replace(/\s+/g, '') || 'profile';
-}, [user?.handle, user?.name]);
+    return user?.handle || user?.name?.toLowerCase().replace(/\s+/g, '') || '';
+    }, [user?.handle, user?.name]);
 
-const portfolioUrl = useMemo(() => {
-if (typeof window === 'undefined') return '';
-return `${window.location.origin}/${handle}`;
-}, [handle]);
+
+    const portfolioUrl = useMemo(() => {
+        if (!handle) return '#';
+        const relativePath = `/${handle}`;
+        if (typeof window === 'undefined') return relativePath;
+        return `${window.location.origin}${relativePath}`;
+    }, [handle]);
 
 const handleCopy = async () => {
 if (!isEnabled) return;
@@ -193,15 +197,20 @@ return (
 
     {isEnabled ? (
         <a
-        href={portfolioUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-xs flex items-center gap-1 hover:underline font-medium"
-        style={{ color: 'var(--accent-warm)' }}
-        >
-        <span>Live Preview</span>
-        <ExternalLink className="w-3.5 h-3.5" />
-        </a>
+            href={handle ? portfolioUrl : '#'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`text-xs flex items-center gap-1 font-medium ${
+                !handle ? 'opacity-50 cursor-not-allowed' : 'hover:underline'
+            }`}
+            style={{ color: 'var(--accent-warm)' }}
+            onClick={(e) => {
+                if (!handle) e.preventDefault();
+            }}
+            >
+            <span>Live Preview</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+    </a>
     ) : (
         <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400">
         Locked ({projectsCount}/2 Projects Added)

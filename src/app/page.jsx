@@ -48,6 +48,7 @@ return (
         <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-tight text-[#f5f2eb]">
         Welcome to <span className="text-[#c88346]">FolioForge</span>
         </h1>
+        
         <p className="text-base md:text-lg text-[#a09a90] max-w-lg mx-auto leading-relaxed">
         A unified stage for creators, developers, visual artists, and filmmakers to forge and showcase high-impact portfolios.
         </p>
