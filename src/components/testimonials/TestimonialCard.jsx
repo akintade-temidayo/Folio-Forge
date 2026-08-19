@@ -1,0 +1,2 @@
+import StarRating from "./StarRating";
+export default function TestimonialCard({ testimonial }) { return <article className="rounded-xl border border-stone-200 bg-white p-6"><StarRating value={testimonial.rating} /><blockquote className="mt-4 text-lg leading-8">“{testimonial.quote}”</blockquote><p className="mt-5 font-semibold">{testimonial.name}</p>{testimonial.role && <p className="text-sm text-stone-500">{testimonial.role}</p>}</article>; }

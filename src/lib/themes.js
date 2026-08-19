@@ -1,0 +1,148 @@
+export const THEMES = [
+{
+id: 'espresso',
+name: 'Espresso',
+color: '#1c1917',
+vars: {
+    '--bg-main': '#1c1917',
+    '--bg-surface': '#26221f',
+    '--bg-surface-hover': '#332e29',
+    '--border-subtle': '#38322c',
+    '--text-primary': '#f5f2eb',
+    '--text-secondary': '#a89f91',
+    '--accent-warm': '#c88346',
+},
+},
+{
+id: 'warm-cream',
+name: 'Warm Cream',
+color: '#f5f2eb',
+vars: {
+    '--bg-main': '#f5f2eb',
+    '--bg-surface': '#ffffff',
+    '--bg-surface-hover': '#ebd6c1',
+    '--border-subtle': '#e5e0d8',
+    '--text-primary': '#1a1918',
+    '--text-secondary': '#666059',
+    '--accent-warm': '#c88346',
+},
+},
+{
+id: 'blue-dark',
+name: 'Ocean Dark',
+color: '#0f172a',
+vars: {
+    '--bg-main': '#0f172a',
+    '--bg-surface': '#1e293b',
+    '--bg-surface-hover': '#334155',
+    '--border-subtle': '#334155',
+    '--text-primary': '#f8fafc',
+    '--text-secondary': '#94a3b8',
+    '--accent-warm': '#38bdf8',
+},
+},
+{
+id: 'ocean',
+name: 'Ocean Light',
+color: '#e0f2fe',
+vars: {
+    '--bg-main': '#f0f9ff',
+    '--bg-surface': '#ffffff',
+    '--bg-surface-hover': '#e0f2fe',
+    '--border-subtle': '#bae6fd',
+    '--text-primary': '#0c4a6e',
+    '--text-secondary': '#0284c7',
+    '--accent-warm': '#0284c7',
+},
+},
+{
+id: 'pink',
+name: 'Pink Glam',
+color: '#ec4899',
+vars: {
+    '--bg-main': '#fdf2f8',
+    '--bg-surface': '#ffffff',
+    '--bg-surface-hover': '#fce7f3',
+    '--border-subtle': '#fbcfe8',
+    '--text-primary': '#831843',
+    '--text-secondary': '#db2777',
+    '--accent-warm': '#ec4899',
+},
+},
+{
+id: 'pink-dark',
+name: 'Magenta Noir',
+color: '#db2777',
+vars: {
+    '--bg-main': '#18040f',
+    '--bg-surface': '#280a1c',
+    '--bg-surface-hover': '#3d122b',
+    '--border-subtle': '#581c3e',
+    '--text-primary': '#fdf2f8',
+    '--text-secondary': '#f472b6',
+    '--accent-warm': '#f472b6',
+},
+},
+{
+id: 'emerald',
+name: 'Emerald',
+color: '#064e3b',
+vars: {
+    '--bg-main': '#022c22',
+    '--bg-surface': '#064e3b',
+    '--bg-surface-hover': '#047857',
+    '--border-subtle': '#065f46',
+    '--text-primary': '#ecfdf5',
+    '--text-secondary': '#6ee7b7',
+    '--accent-warm': '#34d399',
+},
+},
+{
+id: 'gray',
+name: 'Slate Gray',
+color: '#374151',
+vars: {
+    '--bg-main': '#111827',
+    '--bg-surface': '#1f2937',
+    '--bg-surface-hover': '#374151',
+    '--border-subtle': '#4b5563',
+    '--text-primary': '#f9fafb',
+    '--text-secondary': '#9ca3af',
+    '--accent-warm': '#9ca3af',
+},
+},
+{
+id: 'pitch-dark',
+name: 'Pitch Dark',
+color: '#000000',
+vars: {
+    '--bg-main': '#050505',
+    '--bg-surface': '#121212',
+    '--bg-surface-hover': '#1e1e1e',
+    '--border-subtle': '#27272a',
+    '--text-primary': '#ffffff',
+    '--text-secondary': '#a1a1aa',
+    '--accent-warm': '#e4e4e7',
+},
+},
+{
+id: 'midnight-purple',
+name: 'Midnight Purple',
+color: '#3b0764',
+vars: {
+    '--bg-main': '#0f051d',
+    '--bg-surface': '#1c0b36',
+    '--bg-surface-hover': '#2a124d',
+    '--border-subtle': '#4c1d95',
+    '--text-primary': '#f3e8ff',
+    '--text-secondary': '#c084fc',
+    '--accent-warm': '#a855f7',
+},
+},
+];
+
+export const DEFAULT_THEME_ID = 'espresso';
+
+export function getThemeById(id) {
+return THEMES.find((t) => t.id === id) || THEMES[0];
+}

@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@layer base {
+  /* Default Flagship Theme: Rich Espresso & Warm Terracotta */
+  :root,
+  [data-theme="espresso"] {
+    --bg-main: #1c1917;          /* Rich espresso background */
+    --bg-surface: #26221f;       /* Warm cocoa surface for cards/modals */
+    --bg-surface-hover: #332e29; /* Hover state for surface cards */
+
+    --text-primary: #f5f2eb;     /* Soft dim white / warm cream */
+    --text-secondary: #a89f91;   /* Muted warm taupe */
+
+    --border-subtle: #38322c;    /* Soft outline border */
+    --accent-warm: #c88346;      /* Terracotta / warm amber highlight */
+    --accent-warm-hover: #b47238;
+  }
+
+  /* 1. Shades of Blue (Light / Studio Daylight) */
+  [data-theme='ocean'] {
+  --bg-main: #f0f9ff;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #e0f2fe;
+  --border-subtle: #bae6fd;
+  --text-primary: #0c4a6e;
+  --text-secondary: #0284c7;
+  --accent-warm: #0284c7;
+}
+
+  /* 2. Shades of Blue (Dark / Midnight Navy) */
+  [data-theme="blue-dark"] {
+    --bg-main: #0b132b;
+    --bg-surface: #1c2541;
+    --bg-surface-hover: #253259;
+    --text-primary: #edf2f4;
+    --text-secondary: #8d99ae;
+    --border-subtle: #3a506b;
+    --accent-warm: #48cae4;
+    --accent-warm-hover: #3ab0ca;
+  }
+
+  /* Light Pink Glam Theme */
+[data-theme='pink'] {
+  --bg-main: #fdf2f8;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #fce7f3;
+  --border-subtle: #fbcfe8;
+  --text-primary: #831843;
+  --text-secondary: #db2777;
+  --accent-warm: #ec4899;
+}
+
+/* Dark Magenta Glam Theme */
+[data-theme='pink-dark'] {
+  --bg-main: #18040f;
+  --bg-surface: #280a1c;
+  --bg-surface-hover: #3d122b;
+  --border-subtle: #581c3e;
+  --text-primary: #fdf2f8;
+  --text-secondary: #f472b6;
+  --accent-warm: #f472b6;
+}
+
+  /* 4. Shades of Gray (Cool Dark Slate) */
+  [data-theme="gray"] {
+    --bg-main: #121212;
+    --bg-surface: #1e1e1e;
+    --bg-surface-hover: #2a2a2a;
+    --text-primary: #f5f5f5;
+    --text-secondary: #9e9e9e;
+    --border-subtle: #333333;
+    --accent-warm: #e0e0e0;
+    --accent-warm-hover: #cccccc;
+  }
+
+  /* 5. Emerald Forest (Cinematic Deep Pine) */
+  [data-theme="emerald"] {
+    --bg-main: #0a1712;
+    --bg-surface: #13261e;
+    --bg-surface-hover: #1c382c;
+    --text-primary: #ecf8f3;
+    --text-secondary: #85ab9a;
+    --border-subtle: #203e31;
+    --accent-warm: #52b788;
+    --accent-warm-hover: #409b71;
+  }
+
+  /*6. Pitch Dark (Obsidian) */
+[data-theme='pitch-dark'] {
+  --bg-main: #050505;
+  --bg-surface: #121212;
+  --bg-surface-hover: #1e1e1e;
+  --border-subtle: #27272a;
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --accent-warm: #e4e4e7;
+}
+
+/*7. Midnight Purple */
+[data-theme='midnight-purple'] {
+  --bg-main: #0f051d;
+  --bg-surface: #1c0b36;
+  --bg-surface-hover: #2a124d;
+  --border-subtle: #4c1d95;
+  --text-primary: #f3e8ff;
+  --text-secondary: #c084fc;
+  --accent-warm: #a855f7;
+}
+
+/*8. Warm Cream Theme */
+[data-theme='warm-cream'] {
+  --bg-main: #fbf9f5;
+  --bg-surface: #f3efe6;
+  --bg-surface-hover: #e8e2d5;
+
+  --text-primary: #2c2523;
+  --text-secondary: #786c65;
+
+  --border-subtle: #e2dacd;
+
+  --accent-warm: #d97706; /* Warm Amber */
+}
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
+
+/* Fix browser autofill overrides */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: var(--text-primary) !important;
+  transition: background-color 5000s ease-in-out 0s;
+  box-shadow: 0 0 0px 1000px var(--bg-surface) inset !important;
+}
