@@ -1,5 +1,0 @@
-"use client";
-import { useEffect, useState } from "react";
-import ProjectCard from "../../../components/portfolio/ProjectCard";
-import ProjectFilterBar from "../../../components/portfolio/ProjectFilterBar";
-export default function PortfolioPage() { const [projects, setProjects] = useState([]), [categories, setCategories] = useState([]), [filter, setFilter] = useState(""); useEffect(() => { fetch("/api/projects").then((r) => r.json()).then(setProjects); fetch("/api/categories").then((r) => r.json()).then(setCategories); }, []); const visible = filter ? projects.filter((project) => project.category?.slug === filter) : projects; return <><h1 className="text-4xl font-bold">Portfolio</h1><p className="mt-3 text-stone-600">A selection of recent work.</p><div className="mt-8"><ProjectFilterBar categories={Array.isArray(categories) ? categories : []} value={filter} onChange={setFilter} /><div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{visible.map((project) => <ProjectCard key={project._id} project={project} />)}</div>{!visible.length && <p className="text-stone-500">No projects yet.</p>}</div></>; }
