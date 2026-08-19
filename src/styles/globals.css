@@ -121,6 +121,17 @@
   --accent-warm: #d97706; /* Warm Amber */
 }
 
+/*9. Sage Green Theme */
+[data-theme='sage'] {
+  --bg-main: #f4f7f4;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #e8efe8;
+  --border-subtle: #dce4dc;
+  --text-primary: #1c281d;
+  --text-secondary: #4a5d4c;
+  --accent-warm: #588157;
+}
+
   body {
     background-color: var(--bg-main);
     color: var(--text-primary);

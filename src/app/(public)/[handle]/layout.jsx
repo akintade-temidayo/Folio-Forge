@@ -60,13 +60,17 @@ notFound();
 const activeThemeId = user.portfolioTheme || 'espresso';
 const themeConfig = THEMES.find((t) => t.id === activeThemeId) || THEMES[0];
 
+// Extract variables safely (handles both theme.variables and theme.vars definitions)
+const themeVariables = themeConfig.variables || themeConfig.vars || {};
+
 return (
 <div
+    data-theme={activeThemeId}
     className="min-h-screen flex flex-col font-sans transition-colors duration-300"
     style={{
+    ...themeVariables,
     backgroundColor: 'var(--bg-main)',
     color: 'var(--text-primary)',
-    ...themeConfig.vars, 
     }}
 >
     <Navbar user={user} />

@@ -2,6 +2,7 @@ import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import Project from '@/models/Project';
 import Service from '@/models/Service';
+import '@/models/Category';
 import Testimonial from '@/models/Testimonial';
 import Experience from '@/models/Experience'; 
 import { notFound } from 'next/navigation';

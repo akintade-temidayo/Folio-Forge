@@ -98,6 +98,20 @@ vars: {
 },
 },
 {
+id: 'sage',
+name: 'Sage Green',
+color: '#a3b18a', 
+variables: {
+    '--bg-main': '#f4f7f4',
+    '--bg-surface': '#e8efe8',
+    '--bg-surface-hover': '#dde7dd',
+    '--border-subtle': '#cbd5cb',
+    '--text-primary': '#1c281d',
+    '--text-secondary': '#4a5d4c',
+    '--accent-warm': '#588157',
+},
+},
+{
 id: 'gray',
 name: 'Slate Gray',
 color: '#374151',
