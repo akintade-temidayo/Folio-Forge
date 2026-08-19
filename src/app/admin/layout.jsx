@@ -26,6 +26,7 @@ export default function AdminLayout({ children, user: initialUser }) {
 const [currentUser, setCurrentUser] = useState(initialUser || null);
 const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 const [runTour, setRunTour] = useState(false);
+const [tourKey, setTourKey] = useState(0);
 const pathname = usePathname();
 const router = useRouter();
 
@@ -91,7 +92,12 @@ const navItems = [
 { label: 'Profile', href: '/admin/profile', icon: User, tourId: 'tour-profile-nav' },
 ];
 
-const openOnboarding = () => setRunTour(true);
+// Incrementing the key forces Joyride to mount a fresh tour, including when
+// the user restarts it after completing or skipping a previous guide.
+const openOnboarding = () => {
+setTourKey((currentKey) => currentKey + 1);
+setRunTour(true);
+};
 const isRequestPageActive = pathname === '/admin/request-page';
 
 const handleTourEnd = () => {
@@ -122,7 +128,8 @@ return (
             type="button"
             onClick={openOnboarding}
             className="p-1.5 rounded-lg text-(--text-secondary) hover:text-(--accent-warm) transition-colors"
-            title="View onboarding guide"
+            title="Restart onboarding guide"
+            aria-label="Restart onboarding guide"
             data-tour="tour-info-icon"
         >
             <FaInfoCircle className="w-4 h-4" />
@@ -181,7 +188,8 @@ return (
             type="button"
             onClick={openOnboarding}
             className="p-1.5 rounded-lg text-(--text-secondary) hover:text-(--accent-warm) transition-colors shrink-0"
-            title="View onboarding guide"
+            title="Restart onboarding guide"
+            aria-label="Restart onboarding guide"
             data-tour="tour-info-icon"
             >
             <FaInfoCircle className="w-4 h-4" />
@@ -264,7 +272,7 @@ return (
     </main>
 
     {!isAuthPage && currentUser && (
-    <OnboardingTour run={runTour} onEnd={handleTourEnd} />
+    <OnboardingTour key={tourKey} run={runTour} onEnd={handleTourEnd} />
     )}
 </div>
 );
