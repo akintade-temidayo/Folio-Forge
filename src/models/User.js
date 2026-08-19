@@ -84,10 +84,13 @@ portfolioTheme: {
 },
 portfolioTemplate: {
     type: String,
-    default: 'modern', 
-}
+    default: 'modern',
 },
-{ timestamps: true }
+},
+{ 
+timestamps: true,
+collection: 'users' // Directs queries explicitly to the 'users' collection
+}
 );
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);

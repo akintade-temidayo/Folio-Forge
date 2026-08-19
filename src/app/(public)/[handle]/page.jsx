@@ -13,7 +13,6 @@ import BentoTemplate from '@/components/portfolio/templates/BentoTemplate';
 
 export const revalidate = 0;
 
-// Utility to escape regex characters safely
 function escapeRegex(text) {
 return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 }
@@ -22,13 +21,14 @@ async function getPublicData(handle) {
 if (!handle || typeof handle !== 'string') return null;
 
 try {
-await dbConnect();
+const conn = await dbConnect();
 const cleanHandle = handle.trim().toLowerCase();
 
 if (!cleanHandle) return null;
 
 const safeRegex = new RegExp(`^${escapeRegex(cleanHandle)}$`, 'i');
 
+// Query handle directly and case-insensitively
 const user = await User.findOne({
     $or: [
     { handle: cleanHandle },
@@ -39,7 +39,10 @@ const user = await User.findOne({
     .select('-password -resetCode -resetCodeExpiry')
     .lean();
 
-if (!user) return null;
+if (!user) {
+    console.warn(`[Public Portfolio] No user found matching handle: "${cleanHandle}" on db: "${conn.connection.name}"`);
+    return null;
+}
 
 const [projects, services, testimonials, experiences] = await Promise.all([
     Project.find({ userId: user._id }).populate('category').sort({ createdAt: -1 }).lean(),

@@ -11,7 +11,7 @@ if (!cached) {
 cached = global.mongoose = { conn: null, promise: null };
 }
 
-async function connectDB() {
+export default async function dbConnect() {
 if (cached.conn) {
 return cached.conn;
 }
@@ -19,7 +19,8 @@ return cached.conn;
 if (!cached.promise) {
 const opts = {
     bufferCommands: false,
-    serverSelectionTimeoutMS: 10000, // Fail fast instead of hanging up to 30s
+    serverSelectionTimeoutMS: 10000,
+    dbName: 'test', // Explicitly points Mongoose to the 'test' database in Atlas
 };
 
 cached.promise = mongoose.connect(MONGODB_URI, opts).then((m) => m);
@@ -34,5 +35,3 @@ throw e;
 
 return cached.conn;
 }
-
-export default connectDB;
