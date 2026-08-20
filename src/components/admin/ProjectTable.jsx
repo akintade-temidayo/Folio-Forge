@@ -5,7 +5,7 @@ import { Sparkles, Film } from 'lucide-react';
 import Image from 'next/image';
 import ProjectActionsMenu from '@/components/projects/ProjectActionsMenu';
 
-export default function ProjectTable({ projects = [], onEdit, onDelete, onToggleFeatured }) {
+export default function ProjectTable({ projects = [], handle, onEdit, onDelete, onToggleFeatured }) {
 const isVideoUrl = (url = '') => {
 if (!url) return false;
 const lower = url.toLowerCase();
@@ -134,6 +134,7 @@ return (
                 <div className="flex items-center justify-end">
                 <ProjectActionsMenu
                     projectId={project._id}
+                    handle={handle}
                     onEdit={() => onEdit(project)}
                     onDelete={() => onDelete(project._id)}
                 />

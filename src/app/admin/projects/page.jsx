@@ -13,6 +13,7 @@ import { Plus, ListOrdered, Table as TableIcon } from 'lucide-react';
 export default function AdminProjectsPage() {
 const [projects, setProjects] = useState([]);
 const [categories, setCategories] = useState([]);
+const [portfolioHandle, setPortfolioHandle] = useState('');
 const [loading, setLoading] = useState(true);
 const [isTypeModalOpen, setIsTypeModalOpen] = useState(false);
 const [isFormModalOpen, setIsFormModalOpen] = useState(false);
@@ -47,9 +48,20 @@ try {
 }
 };
 
+const fetchPortfolioHandle = async () => {
+try {
+    const res = await fetch('/api/admin/profile');
+    const data = await res.json();
+    setPortfolioHandle(data?.user?.handle || '');
+} catch (err) {
+    console.error('Profile Fetch Error:', err);
+    setPortfolioHandle('');
+}
+};
+
 useEffect(() => {
 const loadInitialData = async () => {
-    await Promise.all([fetchProjects(), fetchCategories()]);
+    await Promise.all([fetchProjects(), fetchCategories(), fetchPortfolioHandle()]);
 };
 loadInitialData();
 }, []);
@@ -173,13 +185,14 @@ return (
     ) : viewMode === 'reorder' ? (
     <ReorderableList
         projects={projects}
+        handle={portfolioHandle}
         onEdit={handleEditProject}
         onDelete={handleDelete}
         onToggleFeatured={handleToggleFeatured}
         onReorder={handleReorder}
     />
     ) : (
-    <ProjectTable projects={projects} onEdit={handleEditProject} onDelete={handleDelete} onToggleFeatured={handleToggleFeatured} />
+    <ProjectTable projects={projects} handle={portfolioHandle} onEdit={handleEditProject} onDelete={handleDelete} onToggleFeatured={handleToggleFeatured} />
     )}
 
     <Modal isOpen={isTypeModalOpen} onClose={() => setIsTypeModalOpen(false)} title="What are you adding?">

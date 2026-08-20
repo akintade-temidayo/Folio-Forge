@@ -5,9 +5,10 @@ import { MoreVertical, Eye, Edit2, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 
-export default function ProjectActionsMenu({ projectId, onEdit, onDelete }) {
+export default function ProjectActionsMenu({ projectId, handle = '', onEdit, onDelete }) {
 const [isOpen, setIsOpen] = useState(false);
 const menuRef = useRef(null);
+const projectHref = handle ? `/${handle}/projects/${projectId}` : '#';
 
 // Close the dropdown on outside click or Escape, so it behaves like a
 // normal menu rather than staying pinned open until the trigger is
@@ -62,9 +63,12 @@ return (
         style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-subtle)' }}
     >
         <Link
-        href={`/projects/${projectId}`}
+        href={projectHref}
         target="_blank"
-        onClick={() => setIsOpen(false)}
+        onClick={(event) => {
+            if (!handle) event.preventDefault();
+            setIsOpen(false);
+        }}
         className="flex items-center gap-2.5 px-3.5 py-2 text-xs transition-colors hover:bg-(--bg-surface-hover)"
         style={{ color: 'var(--text-primary)' }}
         >

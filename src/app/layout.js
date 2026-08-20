@@ -1,8 +1,11 @@
 import "../styles/globals.css";
 
 export const metadata = {
-  title: "Fabmise Portfolio",
-  description: "Selected work by Fabmise.",
+  title: {
+    default: 'FolioForge | Personal Portfolio',
+    template: '%s',
+  },
+  description: 'Showcase your creative work and technical projects.',
 };
 
 export default function RootLayout({ children }) {

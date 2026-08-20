@@ -29,7 +29,6 @@ if (!cleanHandle) return null;
 
 const safeRegex = new RegExp(`^${escapeRegex(cleanHandle)}$`, 'i');
 
-// Query handle directly and case-insensitively
 const user = await User.findOne({
     $or: [
     { handle: cleanHandle },
@@ -63,6 +62,22 @@ return {
 console.error('Error fetching public portfolio:', err);
 return null;
 }
+}
+
+// 1. DYNAMIC METADATA (Updates Browser Tab Title)
+export async function generateMetadata({ params }) {
+const resolvedParams = await params;
+const handle = resolvedParams?.handle;
+const data = await getPublicData(handle);
+
+if (!data?.user) {
+return { title: 'Portfolio Not Found' };
+}
+
+return {
+title: `${data.user.name} | Portfolio`,
+description: data.user.bio || `Explore ${data.user.name}'s portfolio of work and services.`,
+};
 }
 
 export default async function PublicPortfolioPage({ params }) {

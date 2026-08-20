@@ -5,7 +5,7 @@ import { Sparkles, GripVertical, Film } from 'lucide-react';
 import Image from 'next/image';
 import ProjectActionsMenu from '@/components/projects/ProjectActionsMenu';
 
-export default function ReorderableList({ projects = [], onEdit, onDelete, onToggleFeatured, onReorder }) {
+export default function ReorderableList({ projects = [], handle, onEdit, onDelete, onToggleFeatured, onReorder }) {
 const [items, setItems] = useState(projects);
 
 const [prevProjects, setPrevProjects] = useState(projects);
@@ -129,6 +129,7 @@ return (
             {/* View/Edit/Delete collapsed into a single dropdown menu */}
             <ProjectActionsMenu
             projectId={project._id}
+            handle={handle}
             onEdit={() => onEdit(project)}
             onDelete={() => onDelete(project._id)}
             />

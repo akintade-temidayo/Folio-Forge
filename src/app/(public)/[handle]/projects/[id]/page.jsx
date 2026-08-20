@@ -1,7 +1,9 @@
 // src/app/(public)/[handle]/project/[id]/page.jsx
 import React from 'react';
 import dbConnect from '@/lib/db';
+import User from '@/models/User';
 import Project from '@/models/Project';
+import '@/models/Category';
 import { notFound } from 'next/navigation';
 
 import ProjectHeader from '@/components/portfolio/project/ProjectHeader';
@@ -19,10 +21,20 @@ let project = null;
 let allProjects = [];
 
 try {
-project = await Project.findById(id).populate('category').lean();
+const cleanHandle = String(handle || '').trim().toLowerCase();
+const portfolioOwner = await User.findOne({ handle: cleanHandle }).select('_id').lean();
+
+if (!portfolioOwner) {
+    notFound();
+}
+
+project = await Project.findOne({
+    _id: id,
+    userId: portfolioOwner._id,
+}).populate('category').lean();
 
 if (project) {
-    allProjects = await Project.find({ userId: project.userId })
+    allProjects = await Project.find({ userId: portfolioOwner._id })
     .select('title projectType images videoUrl previewClip category')
     .populate('category')
     .lean();
