@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import Link from 'next/link';
 import Button from '@/components/ui/Button';
-import { Loader2, UploadCloud, CheckCircle } from 'lucide-react';
+import { Loader2, UploadCloud, CheckCircle, AlertCircle } from 'lucide-react';
 import Select from '@/components/ui/Select';
 
 export default function ProjectForm({ categories = [], initialData = null, onSuccess }) {
@@ -24,7 +25,6 @@ const categoryOptions = useMemo(
 [catList]
 );
 
-// Form State
 const [title, setTitle] = useState(initialData?.title || '');
 const [categoryId, setCategoryId] = useState(
 initialData?.category?._id || initialData?.category || ''
@@ -42,8 +42,8 @@ const [submitting, setSubmitting] = useState(false);
 const [uploadingVideo, setUploadingVideo] = useState(false);
 const [errorMsg, setErrorMsg] = useState('');
 
-// Derived, not stored: falls back to the first category only when nothing is explicitly selected
 const activeCategoryId = categoryId || catList[0]?._id || catList[0]?.id || '';
+const hasNoCategories = catList.length === 0;
 
 const handleFileUpload = async (file) => {
 if (!file) return;
@@ -74,6 +74,11 @@ try {
 const handleSubmit = async (e) => {
 e.preventDefault();
 setErrorMsg('');
+
+if (hasNoCategories) {
+    setErrorMsg('Please add a category first before creating a project.');
+    return;
+}
 
 if (!title.trim() || !videoUrl.trim() || !activeCategoryId) {
     setErrorMsg('Please fill in all required fields (Title, Category, Video URL or Upload).');
@@ -119,6 +124,19 @@ return (
     </div>
     )}
 
+    {/* No Category Warning Banner */}
+    {hasNoCategories && (
+    <div className="flex items-center gap-2 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-600 text-xs font-medium">
+        <AlertCircle className="w-4 h-4 shrink-0 text-amber-600" />
+        <span>
+        You don&apos;t have any categories yet.{' '}
+        <Link href="/admin/categories" className="underline font-semibold hover:text-amber-700">
+            Please add a category to continue
+        </Link>
+        </span>
+    </div>
+    )}
+
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div>
         <label className="block text-xs font-semibold mb-1" style={{ color: 'var(--text-secondary, #666059)' }}>
@@ -146,7 +164,8 @@ return (
         options={categoryOptions}
         value={activeCategoryId}
         onChange={(val) => setCategoryId(typeof val === 'object' ? val.value : val)}
-        placeholder="Select a category"
+        placeholder={hasNoCategories ? "No categories available" : "Select a category"}
+        disabled={hasNoCategories}
         />
     </div>
     </div>
@@ -164,7 +183,7 @@ return (
         <input
             type="file"
             accept="video/*"
-            disabled={uploadingVideo}
+            disabled={uploadingVideo || hasNoCategories}
             onChange={(e) => handleFileUpload(e.target.files[0])}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
         />
@@ -248,12 +267,21 @@ return (
     </label>
     </div>
 
-    <div className="flex items-center justify-end gap-3 pt-3 border-t" style={{ borderColor: 'var(--border-subtle, #e5e0d8)' }}>
+    <div className="flex items-center justify-between pt-3 border-t gap-3" style={{ borderColor: 'var(--border-subtle, #e5e0d8)' }}>
+    {hasNoCategories ? (
+        <p className="text-xs font-medium text-amber-600">
+        You don&apos;t have any categories yet.{' '}
+        <Link href="/admin/categories" className="underline font-semibold hover:text-amber-700">
+            Add a category
+        </Link>
+        </p>
+    ) : <div />}
+
     <Button
         type="submit"
-        disabled={submitting || uploadingVideo || catList.length === 0}
+        disabled={submitting || uploadingVideo || hasNoCategories}
         variant="primary"
-        className="gap-2"
+        className="gap-2 shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
     >
         {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
         <span>{initialData ? 'Update Project' : 'Save Project'}</span>

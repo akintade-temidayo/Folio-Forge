@@ -58,7 +58,7 @@ export default function ForgotPasswordPage() {
           <div className="text-center space-y-4 py-4">
             <CheckCircle2 className="w-12 h-12 mx-auto text-emerald-400" />
             <p className="text-xs text-(--text-secondary)">If an account exists for that email, a reset code has been sent.</p>
-            {devCode && <p className="text-xs text-amber-400 font-mono">Development reset code: {devCode}</p>}
+            {devCode && <p className="text-xs text-amber-400 font-mono">Development reset code(Please copy the code): {devCode}</p>}
             <Button type="button" variant="primary" onClick={handleProceed} className="w-full py-3 gap-2">
               Continue <ArrowRight className="w-4 h-4" />
             </Button>
