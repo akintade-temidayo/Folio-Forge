@@ -75,12 +75,12 @@ return (
     {/* Top Navigation & Header */}
     <div className="space-y-4">
     <Link
-        href="/admin/overview"
+        href="/admin/public-link"
         className="inline-flex items-center gap-2 text-xs font-semibold transition-opacity hover:opacity-80"
         style={{ color: 'var(--accent-warm)' }}
     >
         <ArrowLeft className="w-4 h-4" />
-        <span>Back to Dashboard Overview</span>
+        <span>Back</span>
     </Link>
 
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b" style={{ borderColor: 'var(--border-subtle)' }}>

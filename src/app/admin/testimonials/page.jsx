@@ -3,11 +3,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import StarRating from '@/components/testimonials/StarRating';
 import Button from '@/components/ui/Button';
+import Modal from '@/components/ui/Modal';
 import { Check, Trash2 } from 'lucide-react';
 
 export default function AdminTestimonialsPage() {
 const [testimonials, setTestimonials] = useState([]);
 const [loading, setLoading] = useState(true);
+const [testimonialPendingDeletion, setTestimonialPendingDeletion] = useState(null);
+const [isDeleting, setIsDeleting] = useState(false);
 
 const fetchTestimonials = useCallback(async (signal) => {
 try {
@@ -67,15 +70,22 @@ try {
 };
 
 // 3. Delete testimonial handler
-const handleDelete = async (id) => {
-if (!confirm('Are you sure you want to delete this review?')) return;
+const handleDelete = async () => {
+const id = testimonialPendingDeletion?._id;
+if (!id) return;
+
 try {
+    setIsDeleting(true);
     const res = await fetch(`/api/admin/testimonials/${id}`, { method: 'DELETE' });
-    if (res.ok) {
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to delete review');
+    setTestimonialPendingDeletion(null);
     fetchTestimonials();
-    }
 } catch (err) {
     console.error(err);
+    alert(err.message || 'Failed to delete review');
+} finally {
+    setIsDeleting(false);
 }
 };
 
@@ -163,7 +173,7 @@ return (
                 <Button
                 size="sm"
                 variant="danger"
-                onClick={() => handleDelete(item._id)}
+                onClick={() => setTestimonialPendingDeletion(item)}
                 >
                 <Trash2 className="w-3.5 h-3.5" />
                 </Button>
@@ -173,6 +183,29 @@ return (
         })}
     </div>
     )}
+
+    <Modal
+    isOpen={Boolean(testimonialPendingDeletion)}
+    onClose={() => {
+        if (!isDeleting) setTestimonialPendingDeletion(null);
+    }}
+    title="Delete Review?"
+    >
+    <div className="space-y-6">
+        <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+        Are you sure you want to permanently delete the review from{' '}
+        <strong style={{ color: 'var(--text-primary)' }}>{testimonialPendingDeletion?.clientName}</strong>?
+        </p>
+        <div className="flex justify-end gap-3">
+        <Button variant="secondary" onClick={() => setTestimonialPendingDeletion(null)} disabled={isDeleting}>
+            Cancel
+        </Button>
+        <Button variant="danger" onClick={handleDelete} isLoading={isDeleting}>
+            Delete Review
+        </Button>
+        </div>
+    </div>
+    </Modal>
 </div>
 );
 }

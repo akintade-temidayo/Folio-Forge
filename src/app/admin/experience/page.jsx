@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, History, Loader2 } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import Modal from '@/components/ui/Modal';
 import ExperienceModal from '@/components/admin/ExperienceModal';
 import ExperienceCard from '@/components/admin/ExperienceCard';
 
@@ -10,6 +11,7 @@ export default function AdminExperiencePage() {
 const [experiences, setExperiences] = useState([]);
 const [loading, setLoading] = useState(true);
 const [deletingId, setDeletingId] = useState(null);
+const [experiencePendingDeletion, setExperiencePendingDeletion] = useState(null);
 
 // Modal State
 const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,8 +67,9 @@ if (editingExperience) {
 };
 
 // Handle deletion
-const handleDelete = async (id) => {
-if (!window.confirm('Are you sure you want to delete this experience entry?')) return;
+const handleDelete = async () => {
+const id = experiencePendingDeletion?._id;
+if (!id) return;
 
 try {
     setDeletingId(id);
@@ -77,6 +80,7 @@ try {
 
     if (data.success) {
     setExperiences((prev) => prev.filter((item) => item._id !== id));
+    setExperiencePendingDeletion(null);
     } else {
     alert(data.error || 'Failed to delete entry');
     }
@@ -148,7 +152,7 @@ return (
             key={exp._id}
             experience={exp}
             onEdit={handleOpenEditModal}
-            onDelete={handleDelete}
+            onDelete={() => setExperiencePendingDeletion(exp)}
             isDeleting={deletingId === exp._id}
         />
         ))}
@@ -162,6 +166,30 @@ return (
     onSuccess={handleModalSuccess}
     initialData={editingExperience}
     />
+
+    <Modal
+    isOpen={Boolean(experiencePendingDeletion)}
+    onClose={() => {
+        if (!deletingId) setExperiencePendingDeletion(null);
+    }}
+    title="Delete Experience?"
+    >
+    <div className="space-y-6">
+        <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+        Are you sure you want to delete your <strong style={{ color: 'var(--text-primary)' }}>{experiencePendingDeletion?.role}</strong>
+        {' '}experience at <strong style={{ color: 'var(--text-primary)' }}>{experiencePendingDeletion?.company}</strong>?
+        This cannot be undone.
+        </p>
+        <div className="flex justify-end gap-3">
+        <Button variant="secondary" onClick={() => setExperiencePendingDeletion(null)} disabled={Boolean(deletingId)}>
+            Cancel
+        </Button>
+        <Button variant="danger" onClick={handleDelete} isLoading={Boolean(deletingId)}>
+            Delete Experience
+        </Button>
+        </div>
+    </div>
+    </Modal>
 </div>
 );
 }

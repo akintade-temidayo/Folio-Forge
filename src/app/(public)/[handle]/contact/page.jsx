@@ -113,7 +113,7 @@ return (
             borderColor: 'var(--border-subtle)',
             }}
         >
-            <div className="flex items-center gap-3.5">
+            <div className="flex items-center gap-2">
             <div 
                 className="p-3 rounded-xl"
                 style={{ backgroundColor: 'var(--bg-elevated)', color: 'var(--accent)' }}
@@ -162,7 +162,7 @@ return (
             borderColor: 'var(--border-subtle)',
             }}
         >
-            <div className="flex items-center gap-3.5">
+            <div className="flex items-center gap-2">
             <div 
                 className="p-3 rounded-xl"
                 style={{ backgroundColor: 'var(--bg-elevated)', color: 'var(--accent)' }}

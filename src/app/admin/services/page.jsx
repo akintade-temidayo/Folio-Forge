@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { Plus, Loader2 } from 'lucide-react';
+import Button from '@/components/ui/Button';
+import Modal from '@/components/ui/Modal';
 import NoCategoriesBanner from '@/components/admin/services/NoCategoriesBanner';
 import ServicesGrid from '@/components/admin/services/ServicesGrid';
 import ServiceFormModal from '@/components/admin/services/ServiceFormModal';
@@ -11,6 +13,8 @@ const [services, setServices] = useState([]);
 const [categories, setCategories] = useState([]);
 const [loading, setLoading] = useState(true);
 const [isModalOpen, setIsModalOpen] = useState(false);
+const [servicePendingDeletion, setServicePendingDeletion] = useState(null);
+const [isDeleting, setIsDeleting] = useState(false);
 
 useEffect(() => {
 async function fetchServicesData() {
@@ -43,13 +47,22 @@ setServices((prev) => [data.service, ...prev]);
 setIsModalOpen(false);
 };
 
-const handleDeleteService = async (id) => {
-if (!confirm('Are you sure you want to delete this service?')) return;
+const handleDeleteService = async () => {
+const id = servicePendingDeletion?._id;
+if (!id) return;
+
 try {
+    setIsDeleting(true);
     const res = await fetch(`/api/admin/services/${id}`, { method: 'DELETE' });
-    if (res.ok) setServices((prev) => prev.filter((s) => s._id !== id));
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || data.error || 'Failed to delete service');
+    setServices((prev) => prev.filter((service) => service._id !== id));
+    setServicePendingDeletion(null);
 } catch (err) {
     console.error('Failed to delete service:', err);
+    alert(err.message || 'Failed to delete service');
+} finally {
+    setIsDeleting(false);
 }
 };
 
@@ -90,7 +103,11 @@ return (
 
     {hasNoCategories && <NoCategoriesBanner />}
 
-    <ServicesGrid services={services} hasNoCategories={hasNoCategories} onDelete={handleDeleteService} />
+    <ServicesGrid
+    services={services}
+    hasNoCategories={hasNoCategories}
+    onDelete={(id) => setServicePendingDeletion(services.find((service) => service._id === id) || null)}
+    />
 
     {isModalOpen && (
     <ServiceFormModal
@@ -99,6 +116,29 @@ return (
         onCreate={handleCreateService}
     />
     )}
+
+    <Modal
+    isOpen={Boolean(servicePendingDeletion)}
+    onClose={() => {
+        if (!isDeleting) setServicePendingDeletion(null);
+    }}
+    title="Delete Service?"
+    >
+    <div className="space-y-6">
+        <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+        Are you sure you want to delete <strong style={{ color: 'var(--text-primary)' }}>{servicePendingDeletion?.title}</strong>?
+        This cannot be undone.
+        </p>
+        <div className="flex justify-end gap-3">
+        <Button variant="secondary" onClick={() => setServicePendingDeletion(null)} disabled={isDeleting}>
+            Cancel
+        </Button>
+        <Button variant="danger" onClick={handleDeleteService} isLoading={isDeleting}>
+            Delete Service
+        </Button>
+        </div>
+    </div>
+    </Modal>
 </div>
 );
 }

@@ -5,6 +5,8 @@ import Service from '@/models/Service';
 import '@/models/Category';
 import Testimonial from '@/models/Testimonial';
 import Experience from '@/models/Experience'; 
+import Education from '@/models/Education';
+import Certification from '@/models/Certification';
 import { notFound } from 'next/navigation';
 
 import ModernTemplate from '@/components/portfolio/templates/ModernTemplate';
@@ -44,11 +46,13 @@ if (!user) {
     return null;
 }
 
-const [projects, services, testimonials, experiences] = await Promise.all([
+const [projects, services, testimonials, experiences, education, certifications] = await Promise.all([
     Project.find({ userId: user._id }).populate('category').sort({ createdAt: -1 }).lean(),
     Service.find({ userId: user._id }).populate('category').sort({ createdAt: -1 }).lean(),
     Testimonial.find({ userId: user._id, isApproved: true }).sort({ createdAt: -1 }).lean(),
     Experience.find({ userId: user._id }).sort({ createdAt: -1 }).lean(),
+    Education.find({ user: user._id }).sort({ createdAt: -1 }).lean(),
+    Certification.find({ user: user._id }).sort({ createdAt: -1 }).lean(),
 ]);
 
 return {
@@ -57,6 +61,8 @@ return {
     services: JSON.parse(JSON.stringify(services)),
     testimonials: JSON.parse(JSON.stringify(testimonials)),
     experiences: JSON.parse(JSON.stringify(experiences)),
+    education: JSON.parse(JSON.stringify(education)),
+    certifications: JSON.parse(JSON.stringify(certifications)),
 };
 } catch (err) {
 console.error('Error fetching public portfolio:', err);
@@ -90,10 +96,10 @@ if (!data) {
 notFound();
 }
 
-const { user, projects, services, testimonials, experiences } = data;
+const { user, projects, services, testimonials, experiences, education, certifications } = data;
 const selectedTemplate = user.portfolioTemplate || 'modern';
 
-const templateProps = { user, projects, services, testimonials, experiences };
+const templateProps = { user, projects, services, testimonials, experiences, education, certifications };
 
 switch (selectedTemplate) {
 case 'minimal':

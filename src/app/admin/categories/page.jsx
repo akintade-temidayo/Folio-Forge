@@ -11,6 +11,8 @@ const [categories, setCategories] = useState([]);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState(null);
 const [isModalOpen, setIsModalOpen] = useState(false);
+const [categoryPendingDeletion, setCategoryPendingDeletion] = useState(null);
+const [isDeleting, setIsDeleting] = useState(false);
 
 // Simple trigger to refetch data cleanly on create/delete
 const [refreshKey, setRefreshKey] = useState(0);
@@ -62,15 +64,24 @@ return () => {
 };
 }, [refreshKey]); // Dependencies stay 100% constant!
 
-const handleDelete = async (id) => {
-if (!confirm('Are you sure you want to delete this category?')) return;
+const handleDelete = async () => {
+const id = categoryPendingDeletion?._id || categoryPendingDeletion?.id;
+if (!id) return;
+
 try {
+    setIsDeleting(true);
     const res = await fetch(`/api/categories/${id}`, { method: 'DELETE' });
-    if (!res.ok) throw new Error('Failed to delete category');
+    if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.message || data.error || 'Failed to delete category');
+    }
+    setCategoryPendingDeletion(null);
     refreshCategories();
 } catch (err) {
     console.error(err);
-    alert('Error deleting category');
+    alert(err.message || 'Error deleting category');
+} finally {
+    setIsDeleting(false);
 }
 };
 
@@ -140,7 +151,7 @@ return (
                 {cat.name}
             </span>
             </div>
-            <Button size="sm" variant="danger" onClick={() => handleDelete(cat._id || cat.id)}>
+            <Button size="sm" variant="danger" onClick={() => setCategoryPendingDeletion(cat)}>
             <Trash2 className="w-3.5 h-3.5" />
             </Button>
         </div>
@@ -160,6 +171,39 @@ return (
         refreshCategories();
         }}
     />
+    </Modal>
+
+    <Modal
+    isOpen={Boolean(categoryPendingDeletion)}
+    onClose={() => {
+        if (!isDeleting) setCategoryPendingDeletion(null);
+    }}
+    title="Delete Category?"
+    >
+    <div className="space-y-6">
+        <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+        Are you sure you want to delete <strong style={{ color: 'var(--text-primary)' }}>{categoryPendingDeletion?.name}</strong>?
+        This cannot be undone.
+        </p>
+        <div className="flex justify-end gap-3">
+        <Button
+            type="button"
+            variant="secondary"
+            onClick={() => setCategoryPendingDeletion(null)}
+            disabled={isDeleting}
+        >
+            Cancel
+        </Button>
+        <Button
+            type="button"
+            variant="danger"
+            onClick={handleDelete}
+            isLoading={isDeleting}
+        >
+            Delete Category
+        </Button>
+        </div>
+    </div>
     </Modal>
 </div>
 );

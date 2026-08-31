@@ -68,6 +68,7 @@ return (
     <button
     type="button"
     onClick={() => setIsOpen(!isOpen)}
+    data-tour="tour-theme-selector"
     className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--bg-surface-hover) transition-colors"
     >
     <div className="flex items-center gap-3">

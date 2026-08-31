@@ -87,10 +87,25 @@ portfolioTemplate: {
     default: 'modern',
 },
 },
-{ 
+{
 timestamps: true,
-collection: 'users' // Directs queries explicitly to the 'users' collection
+collection: 'users',
+toJSON: { virtuals: true },
+toObject: { virtuals: true },
 }
 );
+
+UserSchema.virtual('certifications', {
+ref: 'Certification',
+localField: '_id',
+foreignField: 'user',
+});
+
+// Added Virtual relationship for Education
+UserSchema.virtual('education', {
+ref: 'Education',
+localField: '_id',
+foreignField: 'user',
+});
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);

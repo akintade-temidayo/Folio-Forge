@@ -94,6 +94,7 @@ return (
             src={user.avatarUrl}
             alt={user.name || 'Avatar'}
             fill
+            sizes="96px"
             className="object-cover"
             priority
             />

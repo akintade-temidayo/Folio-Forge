@@ -132,6 +132,42 @@
   --accent-warm: #588157;
 }
 
+/*10. Storm Blue & Vanilla Dust */
+  [data-theme='storm-vanilla'] {
+    --bg-main: #1b2426;
+    --bg-surface: #263337;
+    --bg-surface-hover: #35454a;
+    --border-subtle: #3f5258;
+    --text-primary: #f4efe8;
+    --text-secondary: #bfae99;
+    --accent-warm: #bfae99;
+    --accent-warm-hover: #d2c3ae;
+  }
+
+  /*11. Raspberry Wine & Soft Skies */
+  [data-theme='raspberry-sky'] {
+    --bg-main: #190a0f;
+    --bg-surface: #2b131a;
+    --bg-surface-hover: #3d1b25;
+    --border-subtle: #522532;
+    --text-primary: #f2f7f8;
+    --text-secondary: #a8bbbf;
+    --accent-warm: #a8bbbf;
+    --accent-warm-hover: #c2d3d7;
+  }
+
+  /*12. Sage Green & Black Olive */
+  [data-theme='sage-olive'] {
+    --bg-main: #1c1d1a;
+    --bg-surface: #292a25;
+    --bg-surface-hover: #3b3c36;
+    --border-subtle: #484a43;
+    --text-primary: #f2f3ef;
+    --text-secondary: #b2b59c;
+    --accent-warm: #b2b59c;
+    --accent-warm-hover: #c4c7b0;
+  }
+
   body {
     background-color: var(--bg-main);
     color: var(--text-primary);

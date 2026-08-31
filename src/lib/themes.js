@@ -153,6 +153,48 @@ vars: {
     '--accent-warm': '#a855f7',
 },
 },
+{
+id: 'storm-vanilla',
+name: 'Storm & Vanilla',
+color: '#537179',
+vars: {
+    '--bg-main': '#1b2426',
+    '--bg-surface': '#263337',
+    '--bg-surface-hover': '#35454a',
+    '--border-subtle': '#3f5258',
+    '--text-primary': '#f4efe8',
+    '--text-secondary': '#bfae99',
+    '--accent-warm': '#bfae99',
+},
+},
+{
+id: 'raspberry-sky',
+name: 'Raspberry Velvet',
+color: '#7b3b4b',
+vars: {
+    '--bg-main': '#190a0f',
+    '--bg-surface': '#2b131a',
+    '--bg-surface-hover': '#3d1b25',
+    '--border-subtle': '#522532',
+    '--text-primary': '#f2f7f8',
+    '--text-secondary': '#a8bbbf',
+    '--accent-warm': '#a8bbbf',
+},
+},
+{
+id: 'sage-olive',
+name: 'Sage & Olive',
+color: '#3b3c36',
+vars: {
+    '--bg-main': '#1c1d1a',
+    '--bg-surface': '#292a25',
+    '--bg-surface-hover': '#3b3c36',
+    '--border-subtle': '#484a43',
+    '--text-primary': '#f2f3ef',
+    '--text-secondary': '#b2b59c',
+    '--accent-warm': '#b2b59c',
+},
+},
 ];
 
 export const DEFAULT_THEME_ID = 'espresso';
