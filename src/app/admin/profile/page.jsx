@@ -9,6 +9,7 @@ AlertTriangle, Globe,
 } from 'lucide-react';
 import Image from 'next/image';
 import { FaGithub, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { toast } from 'sonner';
 
 const SOCIAL_ICONS = { linkedin: FaLinkedin, instagram: FaInstagram, twitter: FaTwitter, github: FaGithub, website: Globe };
 
@@ -63,13 +64,14 @@ try {
     const res = await fetch('/api/admin/profile/deactivate', { method: 'DELETE' });
     const data = await res.json();
     if (res.ok && data.success) {
+    toast.error('Profile deleted successfully.');
     router.push('/admin/login');
     } else {
-    alert(data.message || 'Failed to deactivate account.');
+    toast.error(data.message || 'Failed to deactivate account.');
     }
 } catch (err) {
     console.error('Deactivation error:', err);
-    alert('An unexpected error occurred during deactivation.');
+    toast.error('An unexpected error occurred during deactivation.');
 } finally {
     setIsDeactivating(false);
 }

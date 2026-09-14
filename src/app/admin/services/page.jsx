@@ -7,6 +7,7 @@ import Modal from '@/components/ui/Modal';
 import NoCategoriesBanner from '@/components/admin/services/NoCategoriesBanner';
 import ServicesGrid from '@/components/admin/services/ServicesGrid';
 import ServiceFormModal from '@/components/admin/services/ServiceFormModal';
+import { toast } from 'sonner';
 
 export default function ServicesPage() {
 const [services, setServices] = useState([]);
@@ -45,6 +46,7 @@ const data = await res.json();
 if (!res.ok) throw new Error(data.message || 'Failed to add service');
 setServices((prev) => [data.service, ...prev]);
 setIsModalOpen(false);
+toast.success('Service created successfully.');
 };
 
 const handleDeleteService = async () => {
@@ -58,9 +60,10 @@ try {
     if (!res.ok) throw new Error(data.message || data.error || 'Failed to delete service');
     setServices((prev) => prev.filter((service) => service._id !== id));
     setServicePendingDeletion(null);
+    toast.error('Service deleted successfully.');
 } catch (err) {
     console.error('Failed to delete service:', err);
-    alert(err.message || 'Failed to delete service');
+    toast.error(err.message || 'Failed to delete service.');
 } finally {
     setIsDeleting(false);
 }

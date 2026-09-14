@@ -6,6 +6,7 @@ import EducationCard from '@/components/admin/Education/EducationCard';
 import EducationModal from '@/components/admin/Education/EducationModal';
 import DeleteEducationModal from '@/components/admin/Education/DeleteEducationModal';
 import { Plus, GraduationCap, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function EducationPage() {
 const [educationList, setEducationList] = useState([]);
@@ -104,8 +105,13 @@ const handleSubmit = async (formData) => {
         setIsFormModalOpen(false);
         setSelectedItem(null);
         fetchEducation();
+        if (isEditing) {
+        toast.warning('Education updated successfully.');
+        } else {
+        toast.success('Education created successfully.');
+        }
     } else {
-        alert(data.message || 'Something went wrong');
+        toast.error(data.message || 'Something went wrong.');
     }
     } catch (error) {
     console.error('Error saving education:', error);
@@ -129,8 +135,9 @@ const handleConfirmDelete = async () => {
         setIsDeleteModalOpen(false);
         setSelectedItem(null);
         fetchEducation();
+        toast.error('Education deleted successfully.');
     } else {
-        alert(data.message || 'Failed to delete record');
+        toast.error(data.message || 'Failed to delete record.');
     }
     } catch (error) {
     console.error('Error deleting education:', error);

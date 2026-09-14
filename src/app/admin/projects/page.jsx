@@ -9,6 +9,7 @@ import ReorderableList from '@/components/admin/ReorderableList';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 import { Plus, ListOrdered, Table as TableIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function AdminProjectsPage() {
 const [projects, setProjects] = useState([]);
@@ -91,35 +92,44 @@ setIsFormModalOpen(true);
 const handleDelete = async (id) => {
 if (!confirm('Are you sure you want to delete this project?')) return;
 try {
-    await fetch(`/api/projects/${id}`, { method: 'DELETE' });
+    const res = await fetch(`/api/projects/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('Failed to delete project.');
     fetchProjects();
+    toast.error('Project deleted successfully.');
 } catch (err) {
     console.error(err);
+    toast.error(err.message || 'Failed to delete project.');
 }
 };
 
 const handleToggleFeatured = async (id, isFeatured) => {
 try {
-    await fetch(`/api/projects/${id}`, {
+    const res = await fetch(`/api/projects/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ isFeatured }),
     });
+    if (!res.ok) throw new Error('Failed to update project.');
     fetchProjects();
+    toast.warning(isFeatured ? 'Project marked as featured.' : 'Project removed from featured work.');
 } catch (err) {
     console.error(err);
+    toast.error(err.message || 'Failed to update project.');
 }
 };
 
 const handleReorder = async (reorderedArray) => {
 try {
-    await fetch('/api/projects/reorder', {
+    const res = await fetch('/api/projects/reorder', {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ items: reorderedArray }),
     });
+    if (!res.ok) throw new Error('Failed to reorder projects.');
+    toast.warning('Project order updated successfully.');
 } catch (err) {
     console.error(err);
+    toast.error(err.message || 'Failed to reorder projects.');
 }
 };
 
@@ -208,8 +218,12 @@ return (
         categories={categories}
         initialData={editingProject}
         onSuccess={() => {
+        const isUnlockingPublicLink = !editingProject && projects.length === 1;
         setIsFormModalOpen(false);
         fetchProjects();
+        if (isUnlockingPublicLink) {
+            toast.success('Your public URL is ready');
+        }
         }}
     />
     </Modal>

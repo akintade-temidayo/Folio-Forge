@@ -9,6 +9,7 @@ import MultiSelect from '@/components/ui/MultiSelect';
 import { EXPERTISE_OPTIONS, getSkillsForExpertise } from '@/lib/expertiseOptions';
 import { User, Mail, Phone, Save, ArrowLeft,  Globe } from 'lucide-react';
 import { FaGithub, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { toast } from 'sonner';
 
 export default function EditProfilePage() {
 const router = useRouter();
@@ -95,6 +96,7 @@ try {
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Failed to update profile');
 
+    toast.warning('Profile updated successfully.');
     router.push('/admin/profile');
 } catch (err) {
     console.error('Update error:', err);

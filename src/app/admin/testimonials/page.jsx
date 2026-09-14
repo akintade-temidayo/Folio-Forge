@@ -5,6 +5,7 @@ import StarRating from '@/components/testimonials/StarRating';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
 import { Check, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function AdminTestimonialsPage() {
 const [testimonials, setTestimonials] = useState([]);
@@ -62,10 +63,15 @@ try {
     body: JSON.stringify({ isApproved: true }),
     });
     if (res.ok) {
+    toast.warning('Review successfully approved.');
     fetchTestimonials();
+    } else {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.error || data.message || 'Failed to approve review.');
     }
 } catch (err) {
     console.error(err);
+    toast.error(err.message || 'Failed to approve review.');
 }
 };
 
@@ -81,9 +87,10 @@ try {
     if (!res.ok) throw new Error(data.error || 'Failed to delete review');
     setTestimonialPendingDeletion(null);
     fetchTestimonials();
+    toast.error('Testimonial deleted successfully.');
 } catch (err) {
     console.error(err);
-    alert(err.message || 'Failed to delete review');
+    toast.error(err.message || 'Failed to delete review.');
 } finally {
     setIsDeleting(false);
 }

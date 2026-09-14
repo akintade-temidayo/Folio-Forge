@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { X, Star } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import { toast } from 'sonner';
 
 export default function TestimonialModal({ isOpen, onClose, handle, onSuccess }) {
 const [formData, setFormData] = useState({
@@ -36,6 +37,7 @@ try {
     const data = await res.json();
 
     if (data.success) {
+    toast.success('Review submitted successfully and is awaiting approval.');
     setFormData({ clientName: '', clientRole: '', comment: '', rating: 5 });
     onSuccess?.();
     onClose();

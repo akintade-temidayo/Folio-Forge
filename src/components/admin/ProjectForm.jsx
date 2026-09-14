@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import { Loader2, UploadCloud, CheckCircle, AlertCircle } from 'lucide-react';
 import Select from '@/components/ui/Select';
+import { toast } from 'sonner';
 
 export default function ProjectForm({ categories = [], initialData = null, onSuccess }) {
 const catList = useMemo(
@@ -108,6 +109,11 @@ try {
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Failed to save project');
 
+    if (initialData?._id) {
+    toast.warning('Project updated successfully.');
+    } else {
+    toast.success('Project created successfully.');
+    }
     if (onSuccess) onSuccess();
 } catch (err) {
     setErrorMsg(err.message);

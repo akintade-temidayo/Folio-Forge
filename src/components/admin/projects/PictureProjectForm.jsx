@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import { Loader2, UploadCloud, X, AlertCircle } from 'lucide-react';
 import Select from '@/components/ui/Select';
+import { toast } from 'sonner';
 
 const MAX_IMAGES = 4;
 
@@ -104,6 +105,11 @@ try {
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Failed to save project');
 
+    if (initialData?._id) {
+    toast.warning('Project updated successfully.');
+    } else {
+    toast.success('Project created successfully.');
+    }
     if (onSuccess) onSuccess();
 } catch (err) {
     setErrorMsg(err.message);

@@ -12,6 +12,7 @@ updateCertification,
 deleteCertification,
 } from '@/lib/certification-functions';
 import { Award, Plus, Loader2, AlertCircle } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function CertificationsPage() {
 const [certifications, setCertifications] = useState([]);
@@ -82,8 +83,10 @@ const handleCloseModal = () => {
 const handleFormSubmit = async (formData) => {
     if (editingCert) {
     await updateCertification(editingCert._id, formData);
+    toast.warning('Certification updated successfully.');
     } else {
     await createCertification(formData);
+    toast.success('Certification created successfully.');
     }
     handleCloseModal();
     await loadCertifications();
@@ -94,8 +97,9 @@ const handleDelete = async (id) => {
     try {
     await deleteCertification(id);
     setCertifications((prev) => prev.filter((item) => item._id !== id));
+    toast.error('Certification deleted successfully.');
     } catch (err) {
-    alert(err.message || 'Failed to delete certification.');
+    toast.error(err.message || 'Failed to delete certification.');
     }
 };
 

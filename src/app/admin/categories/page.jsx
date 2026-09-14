@@ -5,6 +5,7 @@ import CategoryForm from '@/components/admin/CategoryForm';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 import { Plus, Trash2, Tag, AlertCircle } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function AdminCategoriesPage() {
 const [categories, setCategories] = useState([]);
@@ -77,9 +78,10 @@ try {
     }
     setCategoryPendingDeletion(null);
     refreshCategories();
+    toast.error('Category deleted successfully.');
 } catch (err) {
     console.error(err);
-    alert(err.message || 'Error deleting category');
+    toast.error(err.message || 'Error deleting category.');
 } finally {
     setIsDeleting(false);
 }

@@ -6,6 +6,7 @@ import Modal from '@/components/ui/Modal';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import DateSelect from '@/components/ui/DateSelect';
+import { toast } from 'sonner';
 
 export default function ExperienceModal({ isOpen, onClose, onSuccess, initialData = null }) {
 // Store prev initialData ID to detect switching between items/modal states seamlessly
@@ -86,6 +87,11 @@ try {
     const data = await res.json();
 
     if (data.success || res.ok) {
+    if (isEditing) {
+    toast.warning('Experience updated successfully.');
+    } else {
+    toast.success('Experience created successfully.');
+    }
     onSuccess(data.experience || data);
     onClose();
     } else {

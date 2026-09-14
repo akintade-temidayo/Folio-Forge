@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import ToastProvider from '@/components/ui/ToastProvider';
 
 export const metadata = {
   title: {
@@ -11,7 +12,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <ToastProvider />
+      </body>
     </html>
   );
 }

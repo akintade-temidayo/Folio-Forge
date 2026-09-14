@@ -6,6 +6,7 @@ import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
 import ExperienceModal from '@/components/admin/ExperienceModal';
 import ExperienceCard from '@/components/admin/ExperienceCard';
+import { toast } from 'sonner';
 
 export default function AdminExperiencePage() {
 const [experiences, setExperiences] = useState([]);
@@ -81,12 +82,13 @@ try {
     if (data.success) {
     setExperiences((prev) => prev.filter((item) => item._id !== id));
     setExperiencePendingDeletion(null);
+    toast.error('Experience deleted successfully.');
     } else {
-    alert(data.error || 'Failed to delete entry');
+    toast.error(data.error || 'Failed to delete entry.');
     }
 } catch (error) {
     console.error('Error deleting experience:', error);
-    alert('An error occurred while deleting.');
+    toast.error('An error occurred while deleting.');
 } finally {
     setDeletingId(null);
 }

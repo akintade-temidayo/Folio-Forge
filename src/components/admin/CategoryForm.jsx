@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
+import { toast } from 'sonner';
 
 export default function CategoryForm({ initialData = null, onSuccess }) {
 const [name, setName] = useState(initialData?.name || '');
@@ -31,6 +32,11 @@ try {
     throw new Error(data.error || 'Failed to save category');
     }
 
+    if (initialData) {
+    toast.warning('Category updated successfully.');
+    } else {
+    toast.success('Category created successfully.');
+    }
     setName('');
     if (onSuccess) onSuccess();
 } catch (err) {
