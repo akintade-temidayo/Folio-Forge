@@ -67,6 +67,7 @@ return (
                     src={project.coverImage}
                     alt={project.title || 'Project Preview'}
                     fill
+                    loading={index === 0 ? 'eager' : 'lazy'}
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                 </div>

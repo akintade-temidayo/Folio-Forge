@@ -8,6 +8,7 @@ import EditorialEducation from '@/components/templates/editorial/EditorialEducat
 import EditorialCertifications from '@/components/templates/editorial/EditorialCertifications';
 import EditorialServices from '@/components/templates/editorial/EditorialServices';
 import EditorialTestimonials from '@/components/templates/editorial/EditorialTestimonials';
+import AnimatedSection from '@/components/portfolio/AnimatedSection';
 
 export default function EditorialTemplate({ 
 user, 
@@ -22,13 +23,13 @@ const userHandle = user?.handle || user?.username || '';
 
 return (
     <div className="max-w-6xl mx-auto py-12 px-4 space-y-20">
-    <EditorialHero user={user} />
-    <EditorialProjects projects={projects} userHandle={userHandle} />
-    <EditorialExperience experiences={experiences} userHandle={userHandle} />
-    <EditorialEducation education={education} userHandle={userHandle} />
-    <EditorialCertifications certifications={certifications} userHandle={userHandle} />
-    <EditorialServices services={services} userHandle={userHandle} />
-    <EditorialTestimonials testimonials={testimonials} userHandle={userHandle} />
+    <AnimatedSection><EditorialHero user={user} /></AnimatedSection>
+    <AnimatedSection delay={0.04}><EditorialProjects projects={projects} userHandle={userHandle} /></AnimatedSection>
+    <AnimatedSection delay={0.04}><EditorialExperience experiences={experiences} userHandle={userHandle} /></AnimatedSection>
+    <AnimatedSection delay={0.04}><EditorialEducation education={education} userHandle={userHandle} /></AnimatedSection>
+    <AnimatedSection delay={0.04}><EditorialCertifications certifications={certifications} userHandle={userHandle} /></AnimatedSection>
+    <AnimatedSection delay={0.04}><EditorialServices services={services} userHandle={userHandle} /></AnimatedSection>
+    <AnimatedSection delay={0.04}><EditorialTestimonials testimonials={testimonials} userHandle={userHandle} /></AnimatedSection>
     </div>
 );
 }

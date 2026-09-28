@@ -9,7 +9,7 @@ import { Film, ArrowUpRight } from 'lucide-react';
 // Renders either Video or Picture depending on project data.
 // Exported so other components (e.g. RelatedProjects) can reuse the exact
 // same media-resolution logic instead of re-implementing it.
-export function CardMediaPreview({ project }) {
+export function CardMediaPreview({ project, priority = false }) {
 const isPicture = project?.projectType === 'picture';
 // previewClip takes priority — it's the field the backend actually sets
 // on save (previewClip: previewClip || videoUrl), so it's the most
@@ -70,6 +70,7 @@ return (
     src={imageSrc}
     alt={project?.title || 'Project'}
     fill
+    loading={priority ? 'eager' : 'lazy'}
     sizes="(max-width: 768px) 100vw, 50vw"
     className="object-cover group-hover:scale-105 transition-transform duration-500"
     />
@@ -85,7 +86,7 @@ return (
 );
 }
 
-export default function ProjectCard({ project, handle }) {
+export default function ProjectCard({ project, handle, priority = false }) {
 if (!project) return null;
 
 const projectId = project._id || project.id;
@@ -110,7 +111,7 @@ return (
 >
     {/* Fixed Aspect Ratio Media Container */}
     <div className="relative aspect-16/10 w-full bg-black/20 overflow-hidden shrink-0">
-    <CardMediaPreview project={project} />
+    <CardMediaPreview project={project} priority={priority} />
 
     {categoryName && (
         <span className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/75 backdrop-blur-md text-[10px] font-medium text-white border border-white/10 z-10">

@@ -19,9 +19,9 @@ return (
             src={userAvatar} 
             alt={userName} 
             fill 
+            loading="eager"
             sizes="96px" 
             className="object-cover" 
-            priority
         />
         ) : (
         userName.charAt(0).toUpperCase()

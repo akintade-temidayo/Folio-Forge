@@ -41,11 +41,12 @@ return (
 
     {/* Responsive Compact 2-Column Grid */}
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-    {recentProjects.map((project) => (
+    {recentProjects.map((project, index) => (
         <ProjectCard
         key={project._id || project.id}
         project={project}
         handle={userHandle}
+        priority={index === 0}
         />
     ))}
     </div>

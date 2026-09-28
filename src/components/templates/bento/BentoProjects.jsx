@@ -55,7 +55,7 @@ return (
         >
         {/* Background Media Overlay using CardMediaPreview */}
         <div className="absolute inset-0 z-0 opacity-20 group-hover:opacity-30 transition-opacity duration-300 pointer-events-none">
-            <CardMediaPreview project={featuredProject} />
+            <CardMediaPreview project={featuredProject} priority />
         </div>
 
         {/* Gradient Overlay to ensure text readability over media */}

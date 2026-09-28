@@ -11,6 +11,7 @@ const [isMobileOpen, setIsMobileOpen] = useState(false);
 const handle = user?.handle || '';
 const aboutHref = handle ? `/${handle}/about` : '/about';
 const contactHref = handle ? `/${handle}/contact` : '/contact';
+const resumeDownloadHref = handle ? `/api/public/${handle}/resume` : '';
 
 const navLinks = [
     { label: 'Projects', href: handle ? `/${handle}/projects` : '/projects' },
@@ -58,7 +59,12 @@ return (
         </nav>
 
         {/* Desktop Contact CTA */}
-        <div className="hidden md:block">
+        <div className="hidden md:flex items-center gap-2">
+        {user?.resumeUrl && (
+            <a href={`${resumeDownloadHref}?view=1`} target="_blank" rel="noopener noreferrer" className="px-4 py-3.5 rounded-xl text-xs font-semibold border border-(--border-subtle) text-(--text-primary) hover:border-(--accent-warm) transition-colors">
+                View CV
+            </a>
+        )}
         <Link
             href={contactHref}
             className="px-6 py-3.5 rounded-xl text-xs font-semibold bg-(--accent-warm) text-(--text-primary) flex items-center justify-center gap-2 hover:opacity-90 transition-all cursor-pointer shadow-sm"
@@ -83,7 +89,7 @@ return (
         <div className="absolute top-20 left-0 right-0 p-6 bg-(--bg-surface) border-b border-(--border-subtle) shadow-2xl flex flex-col gap-4 md:hidden font-sans">
             <div className="flex flex-col gap-2">
             {navLinks.map((link) => (
-                <Link
+        <Link
                 key={link.label}
                 href={link.href}
                 onClick={() => setIsMobileOpen(false)}
@@ -101,7 +107,14 @@ return (
             >
             <span>Hire me</span>
             <ArrowUpRight className="w-4 h-4" />
-            </Link>
+        </Link>
+            {user?.resumeUrl && (
+            <div className="grid grid-cols-1 gap-2">
+                <a href={`${resumeDownloadHref}?view=1`} target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileOpen(false)} className="rounded-xl border border-(--border-subtle) px-4 py-3 text-center text-xs font-semibold text-(--text-primary)">
+                View CV
+                </a>
+            </div>
+            )}
         </div>
         )}
     </div>

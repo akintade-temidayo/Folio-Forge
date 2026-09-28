@@ -2,6 +2,7 @@ import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import Navbar from '@/components/portfolio/layout/Navbar';
 import Footer from '@/components/portfolio/layout/Footer';
+import AnimatedPage from '@/components/portfolio/AnimatedPage';
 import { THEMES } from '@/lib/themes';
 import { notFound } from 'next/navigation';
 
@@ -75,7 +76,7 @@ return (
 >
     <Navbar user={user} />
     <main className="flex-1 max-w-6xl w-full mx-auto px-6">
-    {children}
+    <AnimatedPage>{children}</AnimatedPage>
     </main>
     <Footer user={user} />
 </div>

@@ -6,6 +6,7 @@ import ModernCertifications from '@/components/templates/modern/ModernCertificat
 import ModernServices from '@/components/templates/modern/ModernServices';
 import ModernTestimonials from '@/components/templates/modern/ModernReviews';
 import ScrollToHashOnLoad from '@/components/portfolio/ScrollToHashOnLoad';
+import AnimatedSection from '@/components/portfolio/AnimatedSection';
 
 export default function ModernTemplate({
 user,
@@ -22,13 +23,13 @@ return (
     <div className="w-full space-y-12">
     <ScrollToHashOnLoad />
 
-    <ModernHero user={user} />
-    <ModernProjects projects={projects} handle={handle} />
-    <ModernExperience experiences={experiences} handle={handle} />
-    <ModernEducation education={education} handle={handle} />
-    <ModernCertifications certifications={certifications} handle={handle} />
-    <ModernServices services={services} handle={handle} />
-    <ModernTestimonials testimonials={testimonials} handle={handle} />
+    <AnimatedSection><ModernHero user={user} /></AnimatedSection>
+    <AnimatedSection delay={0.04}><ModernProjects projects={projects} handle={handle} /></AnimatedSection>
+    <AnimatedSection delay={0.04}><ModernExperience experiences={experiences} handle={handle} /></AnimatedSection>
+    <AnimatedSection delay={0.04}><ModernEducation education={education} handle={handle} /></AnimatedSection>
+    <AnimatedSection delay={0.04}><ModernCertifications certifications={certifications} handle={handle} /></AnimatedSection>
+    <AnimatedSection delay={0.04}><ModernServices services={services} handle={handle} /></AnimatedSection>
+    <AnimatedSection delay={0.04}><ModernTestimonials testimonials={testimonials} handle={handle} /></AnimatedSection>
     </div>
 );
 }

@@ -8,6 +8,7 @@ import BentoEducation from '@/components/templates/bento/BentoEducation';
 import BentoCertifications from '@/components/templates/bento/BentoCertifications';
 import BentoServices from '@/components/templates/bento/BentoServices';
 import BentoTestimonials from '@/components/templates/bento/BentoTestimonials';
+import AnimatedSection from '@/components/portfolio/AnimatedSection';
 
 export default function BentoTemplate({ 
 user, 
@@ -23,25 +24,25 @@ const userHandle = user?.handle || user?.username || '';
 return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-10">
     {/* 1. Bento Top Hero Row */}
-    <BentoHero user={user} />
+    <AnimatedSection><BentoHero user={user} /></AnimatedSection>
 
     {/* 2. Bento Projects Section */}
-    <BentoProjects projects={projects} userHandle={userHandle} />
+    <AnimatedSection delay={0.04}><BentoProjects projects={projects} userHandle={userHandle} /></AnimatedSection>
     
     {/* 3. Bento Experience */}
-    <BentoExperience experiences={experiences} userHandle={userHandle} />
+    <AnimatedSection delay={0.04}><BentoExperience experiences={experiences} userHandle={userHandle} /></AnimatedSection>
 
     {/* 4. Bento Education */}
-    <BentoEducation education={education} userHandle={userHandle} />
+    <AnimatedSection delay={0.04}><BentoEducation education={education} userHandle={userHandle} /></AnimatedSection>
 
     {/* 5. Bento Certifications */}
-    <BentoCertifications certifications={certifications} userHandle={userHandle} />
+    <AnimatedSection delay={0.04}><BentoCertifications certifications={certifications} userHandle={userHandle} /></AnimatedSection>
 
     {/* 6. Bento Services */}
-    <BentoServices services={services} userHandle={userHandle} />
+    <AnimatedSection delay={0.04}><BentoServices services={services} userHandle={userHandle} /></AnimatedSection>
 
     {/* 7. Bento Testimonials */}
-    <BentoTestimonials testimonials={testimonials} userHandle={userHandle} />
+    <AnimatedSection delay={0.04}><BentoTestimonials testimonials={testimonials} userHandle={userHandle} /></AnimatedSection>
     </div>
 );
 }

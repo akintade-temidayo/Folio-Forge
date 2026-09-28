@@ -39,6 +39,14 @@ avatarUrl: {
     type: String,
     default: '',
 },
+resumeUrl: {
+    type: String,
+    default: '',
+},
+resumeFileName: {
+    type: String,
+    default: '',
+},
 role: {
     type: String,
     enum: ['super_admin', 'talent'],
@@ -107,5 +115,14 @@ ref: 'Education',
 localField: '_id',
 foreignField: 'user',
 });
+
+// Next.js dev can retain the compiled Mongoose model while this module reloads.
+// Extend that cached model too, so newly added profile fields remain writable.
+if (mongoose.models.User) {
+mongoose.models.User.schema.add({
+    resumeUrl: { type: String, default: '' },
+    resumeFileName: { type: String, default: '' },
+});
+}
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);

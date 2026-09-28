@@ -56,7 +56,10 @@ if (!id) return;
 try {
     setIsDeleting(true);
     const res = await fetch(`/api/admin/services/${id}`, { method: 'DELETE' });
-    const data = await res.json();
+    const contentType = res.headers.get('content-type') || '';
+    const data = contentType.includes('application/json')
+    ? await res.json()
+    : { message: `Delete request failed (${res.status})` };
     if (!res.ok) throw new Error(data.message || data.error || 'Failed to delete service');
     setServices((prev) => prev.filter((service) => service._id !== id));
     setServicePendingDeletion(null);

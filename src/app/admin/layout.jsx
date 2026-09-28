@@ -18,6 +18,7 @@ MessageSquarePlus,
 History,
 Globe,
 GraduationCap,
+FileText,
 } from 'lucide-react';
 import { FaInfoCircle } from 'react-icons/fa';
 import { LiaCertificateSolid } from 'react-icons/lia';
@@ -108,6 +109,7 @@ const navItems = [
     { label: 'Categories', href: '/admin/categories', icon: FolderTree, tourId: 'tour-categories' },
     { label: 'Certifications', href: '/admin/certifications', icon: LiaCertificateSolid, tourId: 'tour-certifications' },
     { label: 'Testimonials', href: '/admin/testimonials', icon: Star, tourId: 'tour-testimonials' },
+    { label: 'Resume / CV', href: '/admin/resume', icon: FileText },
     { label: 'Profile', href: '/admin/profile', icon: User, tourId: 'tour-profile-nav' },
 ];
 

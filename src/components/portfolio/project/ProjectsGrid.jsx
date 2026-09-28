@@ -31,9 +31,9 @@ return (
     </div>
     ) : (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredProjects.map((p) => {
+        {filteredProjects.map((p, index) => {
         const id = p._id || p.id;
-        return <ProjectCard key={id} project={p} handle={handle} />;
+        return <ProjectCard key={id} project={p} handle={handle} priority={index === 0} />;
         })}
     </div>
     )}

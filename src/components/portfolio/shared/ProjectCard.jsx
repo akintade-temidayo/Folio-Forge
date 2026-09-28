@@ -9,7 +9,7 @@ import { Film, ArrowUpRight } from 'lucide-react';
  * Renders either Video or Picture depending on project data.
  * Exported so Bento, Grid, or Related Projects can reuse the exact same media logic.
  */
-export function CardMediaPreview({ project }) {
+export function CardMediaPreview({ project, priority = false }) {
 if (!project) return null;
 
 const isPicture = project?.projectType === 'picture';
@@ -72,7 +72,7 @@ return (
     src={imageSrc}
     alt={project?.title || 'Project'}
     fill
-    loading="eager"
+    loading={priority ? 'eager' : 'lazy'}
     sizes="(max-width: 768px) 100vw, 50vw"
     className="object-cover group-hover:scale-105 transition-transform duration-500"
     />

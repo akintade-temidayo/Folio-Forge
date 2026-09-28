@@ -109,6 +109,8 @@ return (
                 <Image
                     src={certificateUrl}
                     alt={`${item.title || item.name} certificate`}
+                    fill
+                    sizes="(max-width: 767px) 100vw, 33vw"
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     onError={(event) => {
                         event.currentTarget.style.display = 'none';

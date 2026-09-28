@@ -3,6 +3,8 @@ import { AVAILABLE_ICONS } from '../services/IconPicker';
 import { formatNaira } from '@/lib/formatters';
 
 export default function ServiceCard({ service, onDelete }) {
+const hasPrice = Number(service.minPrice) > 0 || Number(service.maxPrice) > 0;
+
 return (
 <div
     className="p-5 rounded-2xl border transition-colors flex flex-col justify-between space-y-4"
@@ -52,12 +54,14 @@ return (
     </p>
     </div>
 
+    {hasPrice && (
     <div className="pt-3 border-t flex items-center justify-between" style={{ borderColor: 'var(--border-subtle)' }}>
     <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>Price Range:</span>
     <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
         ₦{formatNaira(service.minPrice)} – ₦{formatNaira(service.maxPrice)}
     </span>
     </div>
+    )}
 </div>
 );
 }
