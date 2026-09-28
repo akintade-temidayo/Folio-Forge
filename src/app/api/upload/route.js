@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'production' || process.env.CLOUDINARY_CLOUD_NAME) 
     const uploadResult = await new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
         {
-        folder: 'portfolio_uploads',
+        folder: 'portfolio',
         resource_type: 'auto',
         },
         (error, result) => {
